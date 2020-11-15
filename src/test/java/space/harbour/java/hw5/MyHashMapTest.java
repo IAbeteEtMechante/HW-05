@@ -1,11 +1,12 @@
 package space.harbour.java.hw5;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 
 
 public class MyHashMapTest {
@@ -26,6 +27,16 @@ public class MyHashMapTest {
     }
 
     //removing a pair
+    @Test
+    public void removingOnePair() {
+        contacts.put("Ahmed", "123-456-789");
+        contacts.remove("Ahmed");
+
+        assertEquals(contacts.size(), 0);
+        assertFalse(contacts.containsKey("Ahmed"));
+        assertFalse(contacts.containsValue("123-456-789"));
+    }
+
     //changing value by key
     //retrieving a value by non-existent key
     // adding a pair with key = null
