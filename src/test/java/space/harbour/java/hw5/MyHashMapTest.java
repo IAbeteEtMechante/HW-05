@@ -60,12 +60,12 @@ public class MyHashMapTest {
     }
 
     //test05: adding a pair with key = null
-    //@Test
-    //public void addNullKey() {
-    //    contacts.put("Ahmed", "123-456-789");
-    //    contacts.put(null, "987-654-321");
-    //    assertTrue(contacts.containsKey(null));
-    //}
+    @Test (expected = NullPointerException.class)
+    public void addNullKey() {
+        contacts.put("Ahmed", "123-456-789");
+        contacts.put(null, "987-654-321");
+
+    }
 
     //test06: adding a pair with value = null
     @Test
@@ -79,7 +79,6 @@ public class MyHashMapTest {
     @Test
     public void addAndRemoveManyPairs() {
         for (int i = 0; i < 10; i++) {
-            System.out.println("Student" + String.valueOf(i));
             contacts.put("Student" + String.valueOf(i), "123-456-" + String.valueOf(i));
         }
         for (int i = 0; i < 10; i++) {
@@ -153,32 +152,72 @@ public class MyHashMapTest {
 
     }
 
-    //test15 :
+    //test15: general correctness of put function
     @Test
     public void put() {
+        contacts.put("Berend", "123-456-789");
+        assertTrue(contacts.containsKey("Berend"));
+        assertTrue(contacts.containsValue("123-456-789"));
+        assertFalse(contacts.containsKey("Pierre"));
+        assertFalse(contacts.containsValue("888-888-888"));
     }
 
-    //test16 :
+
+    //test16 : we want to test put function a bit more, because we had issues on it
+    //         at HW-03. Let's try to put many keys.
     @Test
-    public void remove() {
+    public void putBigAmountOfKeys() {
+        for (int i = 0; i < 10000; i++) {
+            contacts.put("Student" + String.valueOf(i), "123-456-" + String.valueOf(i));
+        }
+        for (int i = 0; i < 10000; i++) {
+            assertTrue(contacts.containsKey("Student" + String.valueOf(i)));
+            assertTrue(contacts.containsValue("123-456-" + String.valueOf(i)));
+        }
     }
 
-    //test17 :
+    //test17 : we want to be sure that if we put another value on the same key
+    //          the old value will be replaced
     @Test
-    public void putAll() {
+    public void putDifferentValueOnSameKey() {
+        contacts.put("Victor", "888-888-888");
+        contacts.put("Victor", "123-456-789");
+        assertEquals(contacts.get("Victor"), "123-456-789");
+        assertFalse(contacts.containsValue("888-888-888"));
+        assertTrue(contacts.containsValue("123-456-789"));
     }
 
-    //test18 :
+
+    //test18 : we want to be sure that we can differentiate capital letters
     @Test
-    public void clear() {
+    public void putSameNameDifferentCase() {
+        contacts.put("Parshad", "888-888-888");
+        contacts.put("parshad", "123-456-789");
+        assertEquals(contacts.get("parshad"), "123-456-789");
+        assertEquals(contacts.get("Parshad"), "888-888-888");
     }
 
     //test19 :
     @Test
+    public void remove() {
+    }
+
+    //test20
+    @Test
+    public void putAll() {
+    }
+
+    //test21
+    @Test
+    public void clear() {
+    }
+
+    //test22
+    @Test
     public void keySet() {
     }
 
-    //test20 :
+    //test23
     @Test
     public void values() {
     }
