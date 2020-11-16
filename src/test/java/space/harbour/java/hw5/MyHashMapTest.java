@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.Before;
@@ -116,13 +117,13 @@ public class MyHashMapTest {
         assertEquals(contacts.size(), 100_000);
     }
 
-    //test10 :
+    //test10 : check isEmpty() method
     @Test
     public void isEmpty() {
         assertEquals(contacts.size(), 0);
     }
 
-    //test11 :
+    //test11 : check containsKey() method
     @Test
     public void containsKey() {
         contacts.put("Alejandro", "888-888-888");
@@ -130,7 +131,7 @@ public class MyHashMapTest {
         assertFalse(contacts.containsKey("Pierre"));
     }
 
-    //test12 :
+    //test12 : check containsValue() method
     @Test
     public void containsValue() {
         contacts.put("Sarah", "888-888-888");
@@ -138,7 +139,7 @@ public class MyHashMapTest {
         assertFalse(contacts.containsKey("123-456-789"));
     }
 
-    //test13 :
+    //test13 : check get() method
     @Test
     public void get() {
         contacts.put("Vasilii", "888-888-888");
@@ -199,7 +200,7 @@ public class MyHashMapTest {
         assertEquals(contacts.get("Parshad"), "888-888-888");
     }
 
-    //test19
+    //test19: check putAll method
     @Test
     public void putAll() {
         for (int i = 0; i < 10000; i++) {
@@ -217,7 +218,7 @@ public class MyHashMapTest {
 
     }
 
-    //test20
+    //test20 :check clear method
     @Test
     public void clear() {
         for (int i = 0; i < 10000; i++) {
@@ -242,13 +243,91 @@ public class MyHashMapTest {
         assertEquals(contacts.keySet(), mySet);
     }
 
-    //test23
+    //test22
     @Test
     public void values() {
+        for (int i = 0; i < 10000; i++) {
+            contacts.put("Student" + String.valueOf(i), "123-456-" + String.valueOf(i));
+        }
+        Collection<String> myCollection = new HashSet<>();
+        for (int i = 0; i < 10000; i++) {
+            myCollection.add("123-456-" + String.valueOf(i));
+        }
+
+        assertEquals(contacts.values(), myCollection);
     }
 
-    //test21:
+    //test23: test entrySet() method
+    //@Test
+    //public void entrySet() {
+    //    for (int i = 0; i < 10000; i++) {
+    //        contacts.put("Student" + String.valueOf(i), "123-456-" + String.valueOf(i));
+    //    }
+    //    MyHashMap.Pair<String, String> pair = new MyHashMap.Pair<String, String>();
+    //    for (int i = 0; i < 10000; i++) {
+    //        pair.setKey("Student" + String.valueOf(i));
+    //        pair.setValue("123-456-" + String.valueOf(i));
+    //        assertTrue(contacts.entrySet().contains(pair));
+    //    }
+    //}
+
+    //test24: check what happens if we clear() an empty hashmap
     @Test
-    public void entrySet() {
+    public void clearWhenEmpty() {
+        contacts.clear();
+        assertTrue(contacts.isEmpty());
+        assertEquals(contacts.size(), 0);
     }
+
+
+    //test25: check what happens if we clear() an empty hashmap 10000 times
+    @Test
+    public void clearWhenEmptyManyTimes() {
+        for (int i = 0; i < 10_000; i++) {
+            contacts.clear();
+        }
+        assertTrue(contacts.isEmpty());
+        assertEquals(contacts.size(), 0);
+    }
+
+    //test26: check that when we remove pairs with the same value, we keep the keys we didn't remove
+    @Test
+    public void removeValueForDifferentKey() {
+        contacts.put("Patricia", "123-456-789");
+        contacts.put("Duc", "123-456-789");
+        contacts.remove("Patricia");
+        assertEquals(contacts.get("Duc"), "123-456-789");
+    }
+
+    //test27: check that if we add several times the same key value pair, it is
+    //          stored exactly one time
+    @Test
+    public void addSamePairManyTimes() {
+
+        for (int i = 0; i < 10000; i++) {
+            contacts.put("Karim", "111-111-111");
+        }
+        assertEquals(contacts.size(), 1);
+        assertEquals(contacts.get("Karim"), "111-111-111");
+        assertTrue(contacts.containsValue("111-111-111"));
+        assertTrue(contacts.containsKey("Karim"));
+    }
+
+    //test28: check that nothing happens if we apply putAll on the same Hashmap
+    @Test
+    public void putAllOnItself() {
+        for (int i = 0; i < 10; i++) {
+            contacts.put("Student" + String.valueOf(i), "123-456-" + String.valueOf(i));
+        }
+        contacts.putAll(contacts);
+
+        assertEquals(contacts.size(), 10);
+
+        for (int i = 0; i < 10; i++) {
+            assertEquals(contacts.get("Student" + String.valueOf(i)),
+                    "123-456-" + String.valueOf(i));
+        }
+
+    }
+
 }
