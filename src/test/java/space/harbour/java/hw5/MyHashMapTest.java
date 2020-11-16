@@ -75,18 +75,19 @@ public class MyHashMapTest {
         assertNull(contacts.get("Pierre"));
     }
 
-    ////test07: adding many pairs then removing them and checking that map is empty
-    //@Test
-    //public void addAndRemoveManyPairs() {
-    //    for (int i = 0; i < 10; i++) {
-    //        contacts.put("Ahmed" + String.valueOf(i), String.valueOf(i));
-    //    }
-    //    for (int i = 0; i < 10; i++) {
-    //        contacts.remove("Ahmed" + String.valueOf(i));
-    //    }
-    //    assertEquals(contacts.isEmpty(),0);
-    //
-    //}
+    //test07: adding many pairs then removing them and checking that map is empty
+    @Test
+    public void addAndRemoveManyPairs() {
+        for (int i = 0; i < 10; i++) {
+            System.out.println("Student" + String.valueOf(i));
+            contacts.put("Student" + String.valueOf(i), "123-456-" + String.valueOf(i));
+        }
+        for (int i = 0; i < 10; i++) {
+            contacts.remove("Student" + String.valueOf(i));
+        }
+        assertTrue(contacts.isEmpty());
+
+    }
 
     //test08: general correctness of size()
     @Test
@@ -123,50 +124,66 @@ public class MyHashMapTest {
     //test11 :
     @Test
     public void containsKey() {
-        contacts.put("Pierre", "888-888-888");
+        contacts.put("Alejandro", "888-888-888");
+        assertTrue(contacts.containsKey("Alejandro"));
+        assertFalse(contacts.containsKey("Pierre"));
     }
 
     //test12 :
     @Test
     public void containsValue() {
+        contacts.put("Sarah", "888-888-888");
+        assertTrue(contacts.containsValue("888-888-888"));
+        assertFalse(contacts.containsKey("123-456-789"));
     }
 
     //test13 :
     @Test
     public void get() {
+        contacts.put("Vasilii", "888-888-888");
+        assertEquals(contacts.get("Vasilii"), "888-888-888");
+
     }
 
-    //test14 :
+    //test14: check what happens if we try to get a value for a key not present
     @Test
-    public void put() {
+    public void getInexistentKey() {
+        contacts.put("Alex", "888-888-888");
+        assertNull(contacts.get("Pierre"));
+
     }
 
     //test15 :
     @Test
-    public void remove() {
+    public void put() {
     }
 
     //test16 :
     @Test
-    public void putAll() {
+    public void remove() {
     }
 
     //test17 :
     @Test
-    public void clear() {
+    public void putAll() {
     }
 
     //test18 :
     @Test
-    public void keySet() {
+    public void clear() {
     }
 
     //test19 :
     @Test
-    public void values() {
+    public void keySet() {
     }
 
     //test20 :
+    @Test
+    public void values() {
+    }
+
+    //test21:
     @Test
     public void entrySet() {
     }
