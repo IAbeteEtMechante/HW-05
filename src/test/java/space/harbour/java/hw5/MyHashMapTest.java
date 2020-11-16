@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -109,7 +111,7 @@ public class MyHashMapTest {
 
         //big one
         for (int i = 1; i < 100_000; i++) {
-            contacts.put("Ahmed" + String.valueOf(i), String.valueOf(i));
+            contacts.put("Student" + String.valueOf(i), String.valueOf(i));
         }
         assertEquals(contacts.size(), 100_000);
     }
@@ -176,7 +178,7 @@ public class MyHashMapTest {
         }
     }
 
-    //test17 : we want to be sure that if we put another value on the same key
+    //test17 : we also want to be sure that if we put another value on the same key
     //          the old value will be replaced
     @Test
     public void putDifferentValueOnSameKey() {
@@ -197,24 +199,47 @@ public class MyHashMapTest {
         assertEquals(contacts.get("Parshad"), "888-888-888");
     }
 
-    //test19 :
+    //test19
     @Test
-    public void remove() {
+    public void putAll() {
+        for (int i = 0; i < 10000; i++) {
+            contacts.put("Student" + String.valueOf(i), "123-456-" + String.valueOf(i));
+        }
+        MyHashMap<String, String> copyOfContacts = new MyHashMap<>();
+        copyOfContacts.putAll(contacts);
+
+        for (int i = 0; i < 10000; i++) {
+            assertEquals(copyOfContacts.get("Student" + String.valueOf(i)),
+                    "123-456-" + String.valueOf(i));
+        }
+        assertEquals(copyOfContacts.size(), 10000);
+
+
     }
 
     //test20
     @Test
-    public void putAll() {
+    public void clear() {
+        for (int i = 0; i < 10000; i++) {
+            contacts.put("Student" + String.valueOf(i), "123-456-" + String.valueOf(i));
+        }
+        contacts.clear();
+        assertEquals(contacts.size(), 0);
+        assertTrue(contacts.isEmpty());
     }
 
     //test21
     @Test
-    public void clear() {
-    }
-
-    //test22
-    @Test
     public void keySet() {
+        for (int i = 0; i < 10000; i++) {
+            contacts.put("Student" + String.valueOf(i), "123-456-" + String.valueOf(i));
+        }
+        Set<String> mySet = new HashSet<>();
+        for (int i = 0; i < 10000; i++) {
+            mySet.add("Student" + String.valueOf(i));
+        }
+
+        assertEquals(contacts.keySet(), mySet);
     }
 
     //test23
