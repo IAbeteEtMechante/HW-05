@@ -2,6 +2,7 @@ package space.harbour.java.hw5;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -17,7 +18,7 @@ public class MyHashMapTest {
         contacts = new MyHashMap<String, String>();
     }
 
-    //adding a pair
+    //test01: adding a pair
     @Test
     public void addingOnePair() {
         contacts.put("Ahmed", "123-456-789");
@@ -26,7 +27,7 @@ public class MyHashMapTest {
         assertTrue(contacts.containsValue("123-456-789"));
     }
 
-    //removing a pair
+    //test02: removing a pair
     @Test
     public void removingOnePair() {
         contacts.put("Ahmed", "123-456-789");
@@ -37,11 +38,44 @@ public class MyHashMapTest {
         assertFalse(contacts.containsValue("123-456-789"));
     }
 
-    //changing value by key
-    //retrieving a value by non-existent key
-    // adding a pair with key = null
-    //adding a pair with value = null
-    //adding many pairs then removing them and checking that map is empty
+    //test03: changing value by key
+    @Test
+    public void changeValueByKey() {
+        contacts.put("Ahmed", "123-456-789");
+        contacts.remove("Ahmed");
+
+        assertEquals(contacts.size(), 0);
+        assertFalse(contacts.containsKey("Ahmed"));
+        assertFalse(contacts.containsValue("123-456-789"));
+    }
+
+    //test04: retrieving a value by non-existent key
+    @Test
+    public void retrieveValueFromNonExistentKey() {
+        assertNull(contacts.get("Pierre"));
+        contacts.put("Ahmed", "123-456-789");
+        assertNull(contacts.get("Pierre"));
+        contacts.put("Vasilii", "888-888-888");
+        assertNull(contacts.get("Pierre"));
+    }
+
+    //test05: adding a pair with key = null
+    //@Test
+    //public void addNullKey() {
+    //    contacts.put("Ahmed", "123-456-789");
+    //    contacts.put(null, "987-654-321");
+    //    assertTrue(contacts.containsKey(null));
+    //}
+
+    //test06: adding a pair with value = null
+    @Test
+    public void addNullValue() {
+        contacts.put("Ahmed", "123-456-789");
+        contacts.put("Pierre", null);
+        assertNull(contacts.get("Pierre"));
+    }
+
+    //test07: adding many pairs then removing them and checking that map is empty
     @Test
     public void size() {
     }
