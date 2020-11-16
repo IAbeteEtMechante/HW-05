@@ -110,9 +110,14 @@ public class MyHashMap<K, V> implements Map<K, V> {
         Pair<K, V> pair = new Pair<>(key, value);
         int i = keyToBucketIndex(key);
 
-        if (buckets[i].contains(pair)) {
-            buckets[i].remove(pair);
+        if (containsKey(key)) {
+            for (Pair<K, V> oldPair : buckets[i]) {
+                if (oldPair.getKey().equals(key)) {
+                    buckets[i].remove(oldPair);
+                }
+            }
             buckets[i].add(pair);
+
         } else {
             buckets[i].add(pair);
         }
